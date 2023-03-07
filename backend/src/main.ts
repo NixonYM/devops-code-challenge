@@ -1,4 +1,5 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
+import cors from "cors";
 
 type Config = {
   port: number;
@@ -12,10 +13,18 @@ const config: Config = {
   httpProtocol: (process.env.HTTP_PROTOCOL as "https" | "http") || "http",
 };
 
+const requestLogger = (req: Request, res: Response, next: NextFunction) => {
+  console.log("request to", req.url);
+
+  next();
+};
+
 const main = () => {
   const app = express();
+  app.use(cors({ origin: "*" }));
+  app.use(requestLogger);
 
-  app.use("/health", (_req, res) => {
+  app.use("/ping", (_req, res) => {
     res.status(200).json({ message: "all good" });
   });
 

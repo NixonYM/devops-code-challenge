@@ -1,34 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useState, useEffect } from "react";
+import "./App.css";
+
+type User = {
+  name: string;
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [count, setCount] = useState(0);
+  const [users, setUsers] = useState<Array<User>>([]);
+  const [error, setError] = useState<string>("");
+  const [ping, setPing] = useState<string>("");
+  const [responseMsg, setResponseMsg] = useState<string>("");
+
+  const handleGetUsers = async () => {
+    const resp = await fetch("http://localhost:8080/users");
+
+    if (!resp.ok) {
+      setResponseMsg("unable to fetch users");
+      return;
+    }
+
+    const json = await resp.json();
+    setUsers(json.users);
+    return;
+  };
+  const handlePing = async () => {
+    const start = Date.now();
+    const resp = await fetch("http://localhost:8080/ping");
+
+    if (!resp.ok) {
+      setResponseMsg("unable to ping server");
+      return;
+    }
+
+    const json = await resp.json();
+    setResponseMsg(
+      `ping successful: ${json.message} took ${(Date.now() - start) / 1000}ms`
+    );
+
+    return;
+  };
+
+  const handleClear = () => {
+    setResponseMsg("");
+  };
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <h1>DevOps Code Challenge Frontend</h1>
+      <div className="container">
+        <div className="op-group">
+          <div>{responseMsg && <p>{responseMsg}</p>}</div>
+        </div>
+        <div className="op-group">
+          <button onClick={handlePing}>Ping</button>
+        </div>
+        <div className="op-group">
+          <button onClick={handleClear}>X</button>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
