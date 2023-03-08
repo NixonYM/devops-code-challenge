@@ -28,10 +28,6 @@ const main = () => {
     res.status(200).json({ message: "all good" });
   });
 
-  app.use("/users", (_req, res) => {
-    res.status(200).json({ users: [{ name: "test user" }] });
-  });
-
   app.use("/", (_req, res) => {
     res.status(404).json({ message: "not found" });
   });

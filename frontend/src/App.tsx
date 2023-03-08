@@ -6,10 +6,6 @@ type User = {
 };
 
 function App() {
-  const [count, setCount] = useState(0);
-  const [users, setUsers] = useState<Array<User>>([]);
-  const [error, setError] = useState<string>("");
-  const [ping, setPing] = useState<string>("");
   const [responseMsg, setResponseMsg] = useState<string>("");
 
   const handleGetUsers = async () => {
@@ -50,13 +46,17 @@ function App() {
       <h1>DevOps Code Challenge Frontend</h1>
       <div className="container">
         <div className="op-group">
-          <div>{responseMsg && <p>{responseMsg}</p>}</div>
+          <button className="btn" onClick={handlePing}>
+            Ping
+          </button>
+          <button className="btn" onClick={handleClear}>
+            X
+          </button>
         </div>
         <div className="op-group">
-          <button onClick={handlePing}>Ping</button>
-        </div>
-        <div className="op-group">
-          <button onClick={handleClear}>X</button>
+          <div className="responseMsg">
+            {responseMsg && <p>{responseMsg}</p>}
+          </div>
         </div>
       </div>
     </div>
