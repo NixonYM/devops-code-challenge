@@ -43,8 +43,8 @@ Prerequisites:
 You should be able to have the frontend be able to communicate with the backend locally in production mode.
 
 - Production environments will not support hot reload
-- The frontend compiles down to a static web application
-  - `frontend/dist/index.html
+- The backend compiles down to a a single `backend/dist/main.js`
+- The frontend compiles down to a static web application `frontend/dist/index.html`
 
 ### Frontend
 
