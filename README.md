@@ -6,12 +6,14 @@ This project is dedictated for evaluating devops candidates. The application con
 
 Open a browser and navigate to http://localhost:5173 to load the web application. The frontend is really simple as it consists of a title, 2 buttons and some response text. Click `ping` button to send an http request to the backend. On success, the frontend will render a success message. On failure, the frontend will display an error message. The backend is an `express` server that exposes the `/ping` endpoint.
 
-## Get Started - Development
-
 Prerequisites:
 
 - `nodejs` >= `18.12.0`
 - `yarn` >= `1.22.19`
+
+## Get Started - Development
+
+- Hot reload. Writing to a file in the backend or frontend shall result in a hot reload.
 
 ### Frontend
 
@@ -25,9 +27,7 @@ Prerequisites:
 - `yarn`
 - `yarn dev`
 
-### Development Environment Functionality
-
-- Hot reload. Writing to a file in the backend or frontend shall result in a hot reload.
+---
 
 ## Environment Variables
 
@@ -38,20 +38,13 @@ Prerequisites:
   - HOST string
   - HTTP_PROTOCOL string
 
-## Production Environment Functionallity
-
-- Production environments will not support hot reload
-- The frontend compiles down to a static web application
-  - `frontend/dist/index.html
-
 ## Get Started - Production
 
 You should be able to have the frontend be able to communicate with the backend locally in production mode.
 
-Prerequisites:
-
-- `nodejs` >= `18.12.0`
-- `yarn` >= `1.22.19`
+- Production environments will not support hot reload
+- The frontend compiles down to a static web application
+  - `frontend/dist/index.html
 
 ### Frontend
 
@@ -83,4 +76,22 @@ yarn build
 
 # Run the app
 yarn start
+```
+
+## Testing
+
+### Frontend
+
+```
+cd frontend
+
+yarn test
+```
+
+### Backend
+
+```
+cd backend
+
+yarn test
 ```
