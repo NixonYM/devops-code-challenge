@@ -1,40 +1,31 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import "./App.css";
 
-type User = {
-  name: string;
-};
+const SERVER_URL = import.meta.env.VITE_SERVER_URL;
 
-function App() {
+const App = () => {
   const [responseMsg, setResponseMsg] = useState<string>("");
 
-  const handleGetUsers = async () => {
-    const resp = await fetch("http://localhost:8080/users");
-
-    if (!resp.ok) {
-      setResponseMsg("unable to fetch users");
-      return;
-    }
-
-    const json = await resp.json();
-    setUsers(json.users);
-    return;
-  };
   const handlePing = async () => {
     const start = Date.now();
-    const resp = await fetch("http://localhost:8080/ping");
+    await fetch(`${SERVER_URL}/ping`)
+      .then((resp) => {
+        if (!resp?.ok) {
+          throw new Error("unable to ping server");
+        }
 
-    if (!resp.ok) {
-      setResponseMsg("unable to ping server");
-      return;
-    }
-
-    const json = await resp.json();
-    setResponseMsg(
-      `ping successful: ${json.message} took ${(Date.now() - start) / 1000}ms`
-    );
-
-    return;
+        return resp.json();
+      })
+      .then((json) => {
+        setResponseMsg(
+          `ping successful: ${json.message} took ${
+            (Date.now() - start) / 1000
+          }ms`
+        );
+      })
+      .catch((e) => {
+        setResponseMsg(`unable to ping server ${e.message}`);
+      });
   };
 
   const handleClear = () => {
@@ -61,6 +52,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;
