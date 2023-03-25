@@ -1,0 +1,13 @@
+replicaCount: 1
+
+image:
+  repository: jasondanae/backend
+  tag: v2
+
+service:
+  name: frontend
+  port: 80
+  type: LoadBalancer
+
+env:
+  value: http://backend:8080

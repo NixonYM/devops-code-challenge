@@ -9,7 +9,7 @@ type Config = {
 
 const config: Config = {
   port: Number(process.env.PORT) || 8080,
-  host: process.env.HOST || "localhost",
+  host: process.env.HOST || "0.0.0.0",
   httpProtocol: (process.env.HTTP_PROTOCOL as "https" | "http") || "http",
 };
 

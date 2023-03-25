@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  selector:
+    matchLabels:
+      app: frontend
+      # chart: frontend
+      release: {{ .Release.Name }}
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        app: frontend
+        # chart: frontend
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+      - name: {{ .Chart.Name }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        ports:
+        - containerPort: 3000
+        env:
+        {{- toYaml .Values.env | nindent 8 }}
+        #command: ["yarn", "start"]
+        # livenessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 3000
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 10
+        # readinessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 3000
+        #   initialDelaySeconds: 30
+        #   periodSeconds: 10

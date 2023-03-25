@@ -1,0 +1,10 @@
+replicaCount: 1
+
+image:
+  repository: jasondanae/backend
+  tag: v2
+
+service:
+  name: backend
+  port: 8080
+  type: ClusterIP
