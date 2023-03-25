@@ -1,0 +1,40 @@
+name: Build and Push Docker Images
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  build-push-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: docker login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+      - name: Build the Docker image
+        run: cd frontend && docker build . --file Dockerfile --tag jasondanae/frontend:v3
+      - name: Docker Push
+        run: docker push jasondanae/frontend:v3
+
+
+  build-push-backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: docker login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin  
+      - name: Build the Docker image
+        run: cd backend && docker build . --file Dockerfile --tag jasondanae/backend:v3
+      - name: Docker Push
+        run: docker push jasondanae/backend:v3
+

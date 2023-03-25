@@ -1,0 +1,24 @@
+name: Backend Stress Test Pipeline
+on:
+  push:
+    branches: [ test ]
+
+jobs:
+  backend_stress_test_job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.x'
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+    - name: Run stress tests
+      run: python stress_test.py --junitxml=result.xml
+    - name: Upload test results
+      uses: actions/upload-artifact@v2
+      with:
+        name: stress-test-results
+        path: result.xml

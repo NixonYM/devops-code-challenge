@@ -1,0 +1,32 @@
+name: Test back&front-end Github-Action
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+
+  frontend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: cd frontend && yarn install
+      - name: Run tests
+        run: cd frontend && yarn test
+      - name: frontend tests to complete
+        run: echo "Frontend tests completed"
+
+
+  backend-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: cd backend && yarn install
+      - name: Run tests
+        run: cd backend && yarn test
+      - name: backend tests to complete
+        run: echo "Backnd tests completed"
+
